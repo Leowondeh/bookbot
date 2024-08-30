@@ -48,6 +48,6 @@ def generateReport(path):
         
 # Main (WIP)
 def main():
-    generateReport("books/frankenstein.txt") # Example path
+    generateReport("examplepath")
 
 main()
