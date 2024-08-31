@@ -1,10 +1,14 @@
 # Bookbot!
-   Bookbot can read any text given as input and output statistics of said text.
+   Bookbot can read any text given as input and output statistics of said text, like number of words or characters.
 
 # Usage
-   Give Bookbot a file, anything that contains text works!
+   Run Bookbot using `python3 main.py`. It accepts any absolute or relative path from keyboard input.
 
-   Here's an example result using [Frankenstein](https://en.wikipedia.org/wiki/Frankenstein):
+   Available commands are: `exit` and `options`, also given using keyboard input.
+
+# Example result
+   Here's an example result using [Frankenstein](https://en.wikipedia.org/wiki/Frankenstein) as the input text:
+
 ```
 ======== REPORT for books/frankenstein.txt ========
 
@@ -38,4 +42,7 @@
        - q was found 324 times
        - z was found 243 times
 ==================================================
-```
+   ```
+# To-do list
+   - [ ] Add options
+   - [x] Add CLI interface

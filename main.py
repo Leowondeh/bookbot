@@ -1,4 +1,4 @@
-import os, sys
+import os
 from func.sendGreeting import *
 from func.convertToSortedList import *
 from func.getFile import *
@@ -8,7 +8,7 @@ from func.options.optionsMainMenu import *
 
 def generateReport(path):
 
-    countWords(getFile(path)) # Temporary file-exists check
+    countWords(getFile(path)) # file-exists check
     print("")
     print(f"======== REPORT for {path} ========")
     print("")
