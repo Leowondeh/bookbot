@@ -1,53 +1,36 @@
-# Get text from a file
-def getBook(path):
-    with open(path) as f:
-        contents = f.read()
-        return contents
+import os
+from func.sendGreeting import *
+from func.convertToSortedList import *
+from func.getFile import *
+from func.countChars import *
+from func.countWords import *
 
-# Sort by occurence key for sort()
-def sortOccurence(dict):
-    return dict["count"]
-
-# Count words in text
-def countWords(text):
-    splitText = text.split()
-    return len(splitText)
-
-# Count chars in text
-def countChars(text):
-    lowerText = text.lower()
-    charsDictionary = {}
-    for char in lowerText:
-        if char in charsDictionary:
-            charsDictionary[char] += 1
-        else:
-            charsDictionary[char] = 1
-    return charsDictionary
-
-# Convert a dict to a sorted list of dicts (by occurence)
-def convertToSortedList(dictionary):
-    convertedList = []
-    for key, value in dictionary.items():
-        convertedList.append({"char": key, "count": value})
-    convertedList.sort(reverse=True, key=sortOccurence)
-    return convertedList
-
-# Generate Report
 def generateReport(path):
     print(f"======== REPORT for {path} ========")
     print("")
-    print(f"    * Word Count: {countWords(getBook(path))}")
+    print(f"    * Word count: {countWords(getFile(path))}")
     print("")
     print("    * Character counts:")
 
-    for dict in convertToSortedList(countChars(getBook(path))):
+    for dict in convertToSortedList(countChars(getFile(path))):
         if dict['char'].isalpha():
             print(f"       > {dict['char']} was found {dict['count']} times")
-    
     print("==================================================")
         
 # Main (WIP)
 def main():
-    generateReport("examplepath")
+    os.system('clear')
+    sendGreeting("start")
 
+    while True:
+        inp = input()
+        
+        try:
+            generateReport(inp)
+        except FileNotFoundError:
+            print("File not found! Example usage: file.txt or folder/file.txt")
+            sleep(3)
+            os.system('clear')
+            sendGreeting("start")
+    
 main()
