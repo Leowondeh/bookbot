@@ -1,4 +1,5 @@
 from time import sleep
+import os
 
 def sendGreeting(type):
     # START
@@ -8,6 +9,7 @@ def sendGreeting(type):
     ║        Bookbot!       ║
     ║                       ║
     ║ Please provide a path ║
+    ║ or use 'exit' to exit ║
     ╚═══════════════════════╝
           """)
     # EXIT
@@ -21,6 +23,17 @@ def sendGreeting(type):
     ╚═══════════════════════╝
           """)
             sleep(1)
+            os.system('clear')
+    
+    elif type == "options":
+            print(f"""
+    ╔═════════════════════════════════════════════════════╗
+    ║                       Options                       ║
+    ║                                                     ║
+    ║ Type option name (the one in parantheses) to toggle ║
+    ║                                                     ║
+    ╚═════════════════════════════════════════════════════╝
+          """)
     # ERROR handle
     else:
         print("Error, invalid greeting type!")
