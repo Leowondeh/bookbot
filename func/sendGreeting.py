@@ -2,7 +2,7 @@ from time import sleep
 import os
 
 def sendGreeting(type):
-    # START
+    # start
     if type == "start":
         print("""
     ╔═══════════════════════╗
@@ -12,9 +12,10 @@ def sendGreeting(type):
     ║ or use 'exit' to exit ║
     ╚═══════════════════════╝
           """)
-    # EXIT
-    elif type == "exit":
-        for i in range(3, 0, -1):
+
+    # exit (unused, use if need to save)
+    elif type == "exit5":
+        for i in range(5, 0, -1):
             print(f"""
     ╔═══════════════════════╗
     ║        Bookbot        ║
@@ -23,17 +24,27 @@ def sendGreeting(type):
     ╚═══════════════════════╝
           """)
             sleep(1)
-            os.system('clear')
-    
-    elif type == "options":
-            print(f"""
-    ╔═════════════════════════════════════════════════════╗
-    ║                       Options                       ║
-    ║                                                     ║
-    ║ Type option name (the one in parantheses) to toggle ║
-    ║                                                     ║
-    ╚═════════════════════════════════════════════════════╝
+
+    # quick exit
+    elif type == 'quickexit':
+        print("""
+    ╔═══════════════════════╗
+    ║        Bookbot!       ║
+    ║                       ║
+    ║       Exiting...      ║
+    ║        Goodbye!       ║
+    ╚═══════════════════════╝
           """)
-    # ERROR handle
+
+    # options
+    elif type == "options":
+            print(
+f"""    ║
+    ║                       Options                       
+    ║
+    ║ Changes are saved after exiting! (use rt/return)                                  
+    ║ Type option name to toggle:
+    ║                                                     """)
+    # else it's an error
     else:
-        print("Error, invalid greeting type!")
+        raise TypeError
