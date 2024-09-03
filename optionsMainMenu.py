@@ -19,7 +19,7 @@ def optionsMainMenu():
     try:
         open('options') # Exist-check to jump into except
     except FileNotFoundError:
-        createFile('options', 
+        createFileWrite('options', 
 "exitAfterReport, 0, saveToFile, 0") # Hardcoded options list
         
     currentOptions = readOptions()
@@ -29,7 +29,7 @@ def optionsMainMenu():
     currentOptions = tempOptions
     
     for item in currentOptions:
-        print(f"    ║ {item['option']} = {item['value']}")
+        print(f"    ║ {item['option']} = {bool(item['value'])}")
     
     saveSettings(currentOptions)
 
@@ -38,7 +38,7 @@ def optionsMainMenu():
         inp = input()
         
         # Return to main
-        if inp == 'return' or inp == 'rt' or inp == 'quit' or inp == 'exit':
+        if inp == 'return' or inp == 'rt' or inp == 'q' or inp == 'x':
             saveSettings(currentOptions)
             os.system('clear')
             sendGreeting('start')
@@ -51,6 +51,6 @@ def optionsMainMenu():
                    if inp == item['option']:
                     item['value'] = int(not bool(item['value']))
                     found = True
-                    print(f'Value of {item["option"]} changed to {item["value"]}')
+                    print(f'Value of {item["option"]} changed to {bool(item["value"])}')
             if not found:
                 print("Option not found, try again!")

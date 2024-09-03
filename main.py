@@ -1,6 +1,8 @@
 import os
 import readline # input optimizer
 
+import uuid
+
 from func.sendGreeting import *
 from func.converts import *
 from func.fileManagement import *
@@ -11,21 +13,20 @@ from optionsMainMenu import *
 
 def generateReport(path):
 
-    countWords(getFile(path)) # file-exists check
-
-    textToPrint = f"======== REPORT for {path} ========\n"
-    textToPrint += "\n"
-    textToPrint += f"    * Word count: {countWords(getFile(path))}\n"
-    textToPrint += "\n"
-    textToPrint += "    * Character counts:\n"
+    getFile(path) # file-exists check
+    textToPrint = f'======== REPORT for {path[path.rindex("/") + 1:]} ========\n'
+    textToPrint += '\n'
+    textToPrint += f'    * Word count: {countWords(getFile(path))}\n'
+    textToPrint += '\n'
+    textToPrint += '    * Character counts:\n'
 
     # Charcount 
     for dict in convertToSortedList(countChars(getFile(path))):
         if dict['char'].isalpha():
-          textToPrint += (f"       > {dict['char']} was found {dict['count']} times\n")
+          textToPrint += (f'       > {dict["char"]} was found {dict["count"]} times\n')
 
-    textToPrint += "\n"
-    textToPrint += "==================================================\n"
+    textToPrint += '\n'
+    textToPrint += '==================================================\n'
 
     print(textToPrint)
 
@@ -33,11 +34,10 @@ def generateReport(path):
 
     # Check save first to optimize time
     if bool(int(currentOptions[3])) == True:
-        with open('report.txt', 'w') as f:
-            f.write(textToPrint)
-            print("Wrote report to report.txt.")
+        createReportFile(f'{uuid.uuid4()}-{path[path.rindex("/") + 1:]}', textToPrint)
+
     if bool(int(currentOptions[1])) == True:
-        sendGreeting('exit5')
+        sendGreeting('quickexit')
         quit()
     
     # Refresh main menu
@@ -58,6 +58,9 @@ def main():
                 os.system('clear')
                 sendGreeting('quickexit')
                 quit()
+
+            elif inp == 'help' or inp == 'h':
+                sendGreeting('help')
 
             elif inp == 'options' or inp == 'opt':
                 optionsMainMenu()

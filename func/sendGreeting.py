@@ -1,12 +1,13 @@
 from time import sleep
 import os
+from func.fileManagement import getVersion
 
 def sendGreeting(type):
     # start
     if type == "start":
-        print("""
+        print(f"""
     ╔═══════════════════════╗
-    ║        Bookbot!       ║
+    ║    Bookbot! v{getVersion()}   ║
     ║                       ║
     ║ Please provide a path ║
     ║ or use 'exit' to exit ║
@@ -35,11 +36,35 @@ def sendGreeting(type):
     ║        Goodbye!       ║
     ╚═══════════════════════╝
           """)
+    elif type == 'help':
+         os.system('clear')
+         print("""    
+    ╔══════════════════════════════════╗
+    ║                Help              ║
+    ║                                  ║
+    ║ command(shortcuts) - use         ║
+    ║                                  ║
+    ║ help(h) - displays this menu     ║
+    ║ quit(exit, q, x) - quit Bookbot  ║
+    ║ options(opt) - display options   ║
+    ║                                  ║
+    ║    Use return(rt) to go back     ║
+    ╚══════════════════════════════════╝
+""")
+         while True:
+                inp = input()
+                if inp == 'return' or inp == 'rt' or inp == 'q' or inp == 'x':
+                    os.system('clear')
+                    sendGreeting('start')
+                    break
+                else:
+                     os.system('clear')
+                     sendGreeting('help')
 
     # options
-    elif type == "options":
+    elif type == 'options':
             print(
-f"""    ║
+"""    ║
     ║                       Options                       
     ║
     ║ Changes are saved after exiting! (use rt/return)                                  

@@ -6,9 +6,10 @@
    
    Run Bookbot using `python`/`py`/`python3` `main.py` (depending on your Python install) in a command line. It accepts any absolute or relative path from keyboard input.
 
-   Available commands are: `exit`/`quit`/`q`/`x` and `options`/`opt`.
+   A couple basic commands are `exit` and `options`.
+   All commands, including their shortcuts, can be checked using `help`. 
 
-   Options include saving to a report.txt file (the file gets overwritten!) and exiting after a set delay upon completion. (more soon)
+   Options include saving the results to a file in the `reports` folder and exiting after completion. (more soon)
 
 # Example result
    Here's an example result using [Frankenstein](https://en.wikipedia.org/wiki/Frankenstein) ([text source](https://raw.githubusercontent.com/asweigart/codebreaker/master/frankenstein.txt)) as the input text:
@@ -50,4 +51,5 @@
 # To-do list
    - [x] Add options
    - [x] Add CLI interface
-   - [ ] Modify saving to allow old ones to persist
+   - [x] Modify saving to allow old ones to persist
+   - [ ] Add more stats to output
