@@ -50,4 +50,4 @@
 # To-do list
    - [x] Add options
    - [x] Add CLI interface
-   - [] Modify saving to allow old ones to persist
+   - [ ] Modify saving to allow old ones to persist
