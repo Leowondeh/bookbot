@@ -4,6 +4,7 @@ import readline # input optimizer
 from func.sendGreeting import *
 from func.converts import *
 from func.fileManagement import *
+from func.readOptions import *
 from func.countChars import *
 from func.countWords import *
 from optionsMainMenu import *
@@ -11,6 +12,7 @@ from optionsMainMenu import *
 def generateReport(path):
 
     countWords(getFile(path)) # file-exists check
+
     textToPrint = f"======== REPORT for {path} ========\n"
     textToPrint += "\n"
     textToPrint += f"    * Word count: {countWords(getFile(path))}\n"
@@ -26,21 +28,19 @@ def generateReport(path):
     textToPrint += "==================================================\n"
 
     print(textToPrint)
-    
-    # Check options
-    with open('options') as f:
-        currentOptions = f.readline()
-        currentOptions = currentOptions.split(", ")
+
+    currentOptions = readOptions() # Import options
 
     # Check save first to optimize time
-    if bool(currentOptions[3]) == True:
+    if bool(int(currentOptions[3])) == True:
         with open('report.txt', 'w') as f:
             f.write(textToPrint)
             print("Wrote report to report.txt.")
-    if bool(currentOptions[1]) == True:
+    if bool(int(currentOptions[1])) == True:
         sendGreeting('exit5')
         quit()
-    # End check options
+    
+    # Refresh main menu
     sleep(3)
     print("")
     sendGreeting("start")

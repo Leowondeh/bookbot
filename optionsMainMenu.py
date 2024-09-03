@@ -1,6 +1,7 @@
 import os
 from func.sendGreeting import *
 from func.fileManagement import *
+from func.readOptions import *
 from func.debugPrint import *
 
 def saveSettings(currentOptions):
@@ -21,18 +22,18 @@ def optionsMainMenu():
         createFile('options', 
 "exitAfterReport, 0, saveToFile, 0") # Hardcoded options list
         
-    with open('options') as f:
-        currentOptions = f.readline()
-        currentOptions = currentOptions.split(", ")
-        tempOptions = []
-        for i in range(0, len(currentOptions), 2):
-            tempOptions.append({'option': currentOptions[i], 'value': int(currentOptions[i+1])})
-        currentOptions = tempOptions
+    currentOptions = readOptions()
+    tempOptions = []
+    for i in range(0, len(currentOptions), 2):
+        tempOptions.append({'option': currentOptions[i], 'value': int(currentOptions[i+1])})
+    currentOptions = tempOptions
     
     for item in currentOptions:
         print(f"    ║ {item['option']} = {item['value']}")
     
     saveSettings(currentOptions)
+
+    # Input loop
     while True:
         inp = input()
         
