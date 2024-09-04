@@ -9,7 +9,12 @@ def saveSettings(currentOptions):
     for i in range(0, len(currentOptions)):
         settingsExport += currentOptions[i]['option'] + ", " + str(currentOptions[i]['value']) + ", "
     with open('options', 'w') as f:
-        f.write(settingsExport[:-2])
+        f.write(settingsExport[:-2]) # except last 2 chars for ", "
+
+# Create (or reset) options list
+def createOrResetOptions():
+    createFileWrite('options', 
+"exitAfterReport, 0, saveToFile, 0, reportAllCharacters, 0")
 
 def optionsMainMenu():
     os.system('clear')
@@ -19,8 +24,7 @@ def optionsMainMenu():
     try:
         open('options') # Exist-check to jump into except
     except FileNotFoundError:
-        createFileWrite('options', 
-"exitAfterReport, 0, saveToFile, 0") # Hardcoded options list
+        createOrResetOptions()
         
     currentOptions = readOptions()
     tempOptions = []
@@ -30,12 +34,13 @@ def optionsMainMenu():
     
     for item in currentOptions:
         print(f"    ║ {item['option']} = {bool(item['value'])}")
+    print('    ║')
     
     saveSettings(currentOptions)
 
     # Input loop
     while True:
-        inp = input()
+        inp = input('    ║ Select option: ')
         
         # Return to main
         if inp == 'return' or inp == 'rt' or inp == 'q' or inp == 'x':
@@ -44,6 +49,16 @@ def optionsMainMenu():
             sendGreeting('start')
             break
         
+        # Options reset
+        elif inp == 'reset':
+            createOrResetOptions()
+            print('    ║ Resetting options... please wait.')
+            sleep(2)
+            os.system('clear')
+            sendGreeting('start')
+            break
+            
+        
         # Otherwise scan for value
         else:
             found = False
@@ -51,6 +66,6 @@ def optionsMainMenu():
                    if inp == item['option']:
                     item['value'] = int(not bool(item['value']))
                     found = True
-                    print(f'Value of {item["option"]} changed to {bool(item["value"])}')
+                    print(f'    ║ Value of {item["option"]} changed to {bool(item["value"])}')
             if not found:
-                print("Option not found, try again!")
+                print('    ║Option not found, try again!')

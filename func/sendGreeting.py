@@ -11,8 +11,8 @@ def sendGreeting(type):
     ║                       ║
     ║ Please provide a path ║
     ║ or use 'exit' to exit ║
-    ╚═══════════════════════╝
-          """)
+    ╠═══════════════════════╝
+    ║""")
 
     # exit (unused, use if need to save)
     elif type == "exit5":
@@ -67,7 +67,10 @@ def sendGreeting(type):
 """    ║
     ║                       Options                       
     ║
-    ║ Changes are saved after exiting! (use rt/return)                                  
+    ║ Changes are saved after exiting! (use rt/return)
+    ║ If options are missing or not working correctly
+    ║ try using 'reset' to reset options to default.
+    ║
     ║ Type option name to toggle:
     ║                                                     """)
     # else it's an error
