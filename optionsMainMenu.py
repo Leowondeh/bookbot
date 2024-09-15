@@ -2,7 +2,6 @@ import os
 from func.sendGreeting import *
 from func.fileManagement import *
 from func.readOptions import *
-from func.debugPrint import *
 
 def saveSettings(currentOptions):
     settingsExport = ""
@@ -14,7 +13,7 @@ def saveSettings(currentOptions):
 # Create (or reset) options list
 def createOrResetOptions():
     createFileWrite('options', 
-"exitAfterReport, 0, saveToFile, 0, reportAllCharacters, 0")
+"exit after finishing report, 0, save to file, 0, report more characters, 0, display vowel count, 1, display consonant count, 1")
 
 def optionsMainMenu():
     os.system('clear')

@@ -12,19 +12,17 @@ from func.countWords import *
 from optionsMainMenu import *
 
 def generateReport(path):
-
     getFile(path) # file-exists check
 
     currentOptions = readOptions() # Import options
 
-    textToPrint = '\n'
-    textToPrint += f'======== REPORT for {path[path.rindex("/") + 1:]} ========\n'
+    textToPrint = f'======== REPORT for {path[path.rindex("/") + 1:]} ========\n'
     textToPrint += '\n'
     textToPrint += f'    * Word count: {countWords(getFile(path))}\n'
     textToPrint += '\n'
     textToPrint += '    * Character counts:\n'
 
-    # Charcount (+ check for reportAllCharacters option)
+    # Charcount and check for options
     if bool(int(currentOptions[5])):
         for dict in convertToSortedList(countChars(getFile(path))):
             if dict['char'] == '\n':
@@ -38,8 +36,11 @@ def generateReport(path):
             if dict['char'].isalpha():
                 textToPrint += (f'       > {dict["char"]} was found {dict["count"]} times\n')
             elif dict['char'] == ' ':
-                pass
+                pass # Exclude spaces
 
+    textToPrint += '\n'
+    textToPrint += f'    * Vowel count: {countVowelsAndConsonants(getFile(path))[0]}\n'
+    textToPrint += f'    * Consonant count: {countVowelsAndConsonants(getFile(path))[1]}'
     textToPrint += '\n'
     textToPrint += '=================================='
 
@@ -48,6 +49,7 @@ def generateReport(path):
     # Check save first to optimize time
     if bool(int(currentOptions[3])):
         createReportFile(f'{uuid.uuid4()}-{path[path.rindex("/") + 1:]}', textToPrint)
+        # File format: (random uuid)-(filename).txt
 
     if bool(int(currentOptions[1])):
         sendGreeting('quickexit')
@@ -81,8 +83,7 @@ def main():
                 try:
                     generateReport(inp)
                 except FileNotFoundError:
-                    print("")
-                    print("File not found! Example usage: file.txt or folder/file.txt")
+                    print('    ║ File not found! Example usage: file.txt or folder/file.txt')
 
         except KeyboardInterrupt:
             os.system('clear')

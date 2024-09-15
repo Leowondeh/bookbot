@@ -7,6 +7,7 @@ def getFile(path):
 
 def getVersion():
     return getFile('version')
+
 def createFileWrite(path, content):
     with open(path, "w") as f:
         f.write(content)
