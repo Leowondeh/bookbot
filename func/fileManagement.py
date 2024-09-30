@@ -6,7 +6,11 @@ def getFile(path):
         return contents
 
 def getVersion():
-    return getFile('version')
+    try:
+        return getFile('version')
+    except FileNotFoundError:
+        createFileWrite('version', '1.11.5')
+        return getFile('version')
 
 def createFileWrite(path, content):
     with open(path, "w") as f:
