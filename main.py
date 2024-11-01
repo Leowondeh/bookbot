@@ -1,5 +1,8 @@
-import os
-import readline # input optimizer
+import os, platform
+
+# input optimizer (only linux)
+if platform.system() == 'Linux':
+    import readline
 
 import uuid
 
@@ -62,7 +65,7 @@ def generateReport(path):
         
 # Main
 def main():
-    os.system('cls' if os.name == 'nt' else 'clear')
+    os.system('cls' if platform.system() == 'Windows' else 'clear')
     sendGreeting("start")
 
     while True:
@@ -70,7 +73,7 @@ def main():
             inp = input('    ║ File path: ')
 
             if inp == 'exit' or inp == 'quit' or inp == 'x' or inp == 'q':
-                os.system('cls' if os.name == 'nt' else 'clear')
+                os.system('cls' if platform.system() == 'Windows' else 'clear')
                 sendGreeting('quickexit')
                 quit()
 
@@ -87,7 +90,7 @@ def main():
                     print('    ║ File not found! Example usage: file.txt or folder/file.txt')
 
         except KeyboardInterrupt:
-            os.system('cls' if os.name == 'nt' else 'clear')
+            os.system('cls' if platform.system() == 'Windows' else 'clear')
             sendGreeting('quickexit')
             quit()
     
