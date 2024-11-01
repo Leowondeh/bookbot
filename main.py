@@ -62,7 +62,7 @@ def generateReport(path):
         
 # Main
 def main():
-    os.system('clear')
+    os.system('cls' if os.name == 'nt' else 'clear')
     sendGreeting("start")
 
     while True:
@@ -70,7 +70,7 @@ def main():
             inp = input('    ║ File path: ')
 
             if inp == 'exit' or inp == 'quit' or inp == 'x' or inp == 'q':
-                os.system('clear')
+                os.system('cls' if os.name == 'nt' else 'clear')
                 sendGreeting('quickexit')
                 quit()
 
@@ -87,7 +87,7 @@ def main():
                     print('    ║ File not found! Example usage: file.txt or folder/file.txt')
 
         except KeyboardInterrupt:
-            os.system('clear')
+            os.system('cls' if os.name == 'nt' else 'clear')
             sendGreeting('quickexit')
             quit()
     

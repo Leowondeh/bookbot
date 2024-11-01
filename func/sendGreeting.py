@@ -37,7 +37,7 @@ def sendGreeting(type):
     ╚═══════════════════════╝
           """)
     elif type == 'help':
-         os.system('clear')
+         os.system('cls' if os.name == 'nt' else 'clear')
          print("""    
     ╔══════════════════════════════════╗
     ║                Help              ║
@@ -54,11 +54,11 @@ def sendGreeting(type):
          while True:
                 inp = input()
                 if inp == 'return' or inp == 'rt' or inp == 'q' or inp == 'x':
-                    os.system('clear')
+                    os.system('cls' if os.name == 'nt' else 'clear')
                     sendGreeting('start')
                     break
                 else:
-                     os.system('clear')
+                     os.system('cls' if os.name == 'nt' else 'clear')
                      sendGreeting('help')
 
     # options

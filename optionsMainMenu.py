@@ -16,7 +16,7 @@ def createOrResetOptions():
 "exit after finishing report, 0, save to file, 0, report more characters, 0, display vowel count, 1, display consonant count, 1")
 
 def optionsMainMenu():
-    os.system('clear')
+    os.system('cls' if os.name == 'nt' else 'clear')
     sendGreeting('options')
 
     # Read options file & print options
@@ -44,7 +44,7 @@ def optionsMainMenu():
         # Return to main
         if inp == 'return' or inp == 'rt' or inp == 'q' or inp == 'x':
             saveSettings(currentOptions)
-            os.system('clear')
+            os.system('cls' if os.name == 'nt' else 'clear')
             sendGreeting('start')
             break
         
@@ -53,7 +53,7 @@ def optionsMainMenu():
             createOrResetOptions()
             print('    ║ Resetting options... please wait.')
             sleep(2)
-            os.system('clear')
+            os.system('cls' if os.name == 'nt' else 'clear')
             sendGreeting('start')
             break
             
