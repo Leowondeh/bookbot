@@ -19,8 +19,10 @@ def generateReport(path):
     getFile(path) # file-exists check
 
     currentOptions = readOptions() # Import options
-
-    textToPrint = f'======== REPORT for {path[path.rindex("/") + 1:]} ========\n'
+    try:
+        textToPrint = f'======== REPORT for {path[path.rindex("/") + 1:]} ========\n'
+    except ValueError:
+        textToPrint = f'======== REPORT for {path} ========\n'
     textToPrint += '\n'
     textToPrint += f'    * Word count: {countWords(getFile(path))}\n'
     textToPrint += '\n'
