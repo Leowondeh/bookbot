@@ -11,6 +11,7 @@ from func.countChars import *
 from func.countWords import *
 from optionsMainMenu import *
 
+# Generate report
 def generateReport(path):
     getFile(path) # file-exists check
 
@@ -90,4 +91,5 @@ def main():
             sendGreeting('quickexit')
             quit()
     
-main()
+if __name__ == '__main__':
+    main()
