@@ -1,4 +1,5 @@
-import os, platform
+import os
+import platform
 
 # input optimizer (only linux)
 if platform.system() == 'Linux':
@@ -6,69 +7,69 @@ if platform.system() == 'Linux':
 
 import uuid
 
-from func.sendGreeting import *
+from func.send_greeting import *
 from func.converts import *
-from func.fileManagement import *
-from func.readOptions import *
-from func.countChars import *
-from func.countWords import *
-from optionsMainMenu import *
+from func.file_management import *
+from func.read_options import *
+from func.count_chars import *
+from func.count_words import *
+from options_main_menu import *
 
 # Generate report
-def generateReport(path):
-    getFile(path) # file-exists check
+def generate_report(path):
+    get_file(path) # file-exists check
 
-    currentOptions = readOptions() # Import options
+    current_options = read_options() # Import options
     try:
-        textToPrint = f'======== REPORT for {path[path.rindex("/") + 1:]} ========\n'
+        text_to_print = f'======== REPORT for {path[path.rindex("/") + 1:]} ========\n'
     except ValueError:
-        textToPrint = f'======== REPORT for {path} ========\n'
-    textToPrint += '\n'
-    textToPrint += f'    * Word count: {countWords(getFile(path))}\n'
-    textToPrint += '\n'
-    textToPrint += '    * Character counts:\n'
+        text_to_print = f'======== REPORT for {path} ========\n'
+    text_to_print += '\n'
+    text_to_print += f'    * Word count: {count_words(get_file(path))}\n'
+    text_to_print += '\n'
+    text_to_print += '    * Character counts:\n'
 
     # Charcount and check for options
-    if bool(int(currentOptions[5])):
-        for dict in convertToSortedList(countChars(getFile(path))):
+    if bool(int(current_options[5])):
+        for dict in convert_to_sorted_list(count_chars(get_file(path))):
             if dict['char'] == '\n':
                 pass
             elif dict['char'] == ' ':
-                textToPrint += (f'       > [space] was found {dict["count"]} times\n')
+                text_to_print += (f'       > [space] was found {dict["count"]} times\n')
             else:
-                textToPrint += (f'       > {dict["char"]} was found {dict["count"]} times\n')
+                text_to_print += (f'       > {dict["char"]} was found {dict["count"]} times\n')
     else:
-        for dict in convertToSortedList(countChars(getFile(path))):
+        for dict in convert_to_sorted_list(count_chars(get_file(path))):
             if dict['char'].isalpha():
-                textToPrint += (f'       > {dict["char"]} was found {dict["count"]} times\n')
+                text_to_print += (f'       > {dict["char"]} was found {dict["count"]} times\n')
             elif dict['char'] == ' ':
                 pass # Exclude spaces
 
-    textToPrint += '\n'
-    textToPrint += f'    * Vowel count: {countVowelsAndConsonants(getFile(path))[0]}\n'
-    textToPrint += f'    * Consonant count: {countVowelsAndConsonants(getFile(path))[1]}'
-    textToPrint += '\n'
-    textToPrint += '=================================='
+    text_to_print += '\n'
+    text_to_print += f'    * Vowel count: {count_vowels_and_consonants(get_file(path))[0]}\n'
+    text_to_print += f'    * Consonant count: {count_vowels_and_consonants(get_file(path))[1]}'
+    text_to_print += '\n'
+    text_to_print += '=================================='
 
-    print(textToPrint)
+    print(text_to_print)
 
     # Check save first to optimize time
-    if bool(int(currentOptions[3])):
-        createReportFile(f'{uuid.uuid4()}-{path[path.rindex("/") + 1:]}', textToPrint)
+    if bool(int(current_options[3])):
+        create_report_file(f'{uuid.uuid4()}-{path[path.rindex("/") + 1:]}', text_to_print)
         # File format: (random uuid)-(filename).txt
 
-    if bool(int(currentOptions[1])):
-        sendGreeting('quickexit')
+    if bool(int(current_options[1])):
+        send_greeting('quickexit')
         quit()
     
     # Refresh main menu
     sleep(3)
-    sendGreeting("start")
+    send_greeting("start")
         
 # Main
 def main():
     os.system('cls' if platform.system() == 'Windows' else 'clear')
-    sendGreeting("start")
+    send_greeting("start")
 
     while True:
         try:
@@ -76,24 +77,24 @@ def main():
 
             if inp == 'exit' or inp == 'quit' or inp == 'x' or inp == 'q':
                 os.system('cls' if platform.system() == 'Windows' else 'clear')
-                sendGreeting('quickexit')
+                send_greeting('quickexit')
                 quit()
 
             elif inp == 'help' or inp == 'h':
-                sendGreeting('help')
+                send_greeting('help')
 
             elif inp == 'options' or inp == 'opt':
-                optionsMainMenu()
+                options_main_menu()
 
             else:
                 try:
-                    generateReport(inp)
+                    generate_report(inp)
                 except FileNotFoundError:
                     print('    ║ File not found! Example usage: file.txt or folder/file.txt')
 
         except KeyboardInterrupt:
             os.system('cls' if platform.system() == 'Windows' else 'clear')
-            sendGreeting('quickexit')
+            send_greeting('quickexit')
             quit()
     
 if __name__ == '__main__':

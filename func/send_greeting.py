@@ -1,13 +1,13 @@
 from time import sleep
-import os
-from func.fileManagement import getVersion
+import platform, os
+from func.file_management import get_version
 
-def sendGreeting(type):
+def send_greeting(type):
     # start
     if type == "start":
         print(f"""
     ╔═══════════════════════╗
-    ║    Bookbot! v{getVersion()}   ║
+    ║    Bookbot! v{get_version()}   ║
     ║                       ║
     ║ Please provide a path ║
     ║ or use 'exit' to exit ║
@@ -37,7 +37,7 @@ def sendGreeting(type):
     ╚═══════════════════════╝
           """)
     elif type == 'help':
-         os.system('cls' if os.name == 'nt' else 'clear')
+         os.system('cls' if platform.system() == 'Windows' else 'clear')
          print("""    
     ╔══════════════════════════════════╗
     ║                Help              ║
@@ -54,12 +54,12 @@ def sendGreeting(type):
          while True:
                 inp = input()
                 if inp == 'return' or inp == 'rt' or inp == 'q' or inp == 'x':
-                    os.system('cls' if os.name == 'nt' else 'clear')
-                    sendGreeting('start')
+                    os.system('cls' if platform.system() == 'Windows' else 'clear')
+                    send_greeting('start')
                     break
                 else:
-                     os.system('cls' if os.name == 'nt' else 'clear')
-                     sendGreeting('help')
+                     os.system('cls' if platform.system() == 'Windows' else 'clear')
+                     send_greeting('help')
 
     # options
     elif type == 'options':
