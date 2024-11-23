@@ -1,5 +1,4 @@
-import os
-import platform
+import os, platform, tkinter as tk
 
 # input optimizer (only linux)
 if platform.system() == 'Linux':
@@ -15,8 +14,10 @@ from func.count_chars import *
 from func.count_words import *
 from options_main_menu import *
 
+version = '1.2.0'
+
 # Generate report
-def generate_report(path):
+def generate_report(path, window_mode = False):
     get_file(path) # file-exists check
 
     current_options = read_options() # Import options
@@ -63,20 +64,17 @@ def generate_report(path):
         quit()
     
     # Refresh main menu
-    sleep(3)
-    send_greeting("start")
-        
-# Main
-def main():
-    os.system('cls' if platform.system() == 'Windows' else 'clear')
-    send_greeting("start")
+    if not window_mode:
+        sleep(3)
+        send_greeting("start")
 
+# Console run mode
+def console_mode():
     while True:
         try:
             inp = input('    ║ File path: ')
 
             if inp == 'exit' or inp == 'quit' or inp == 'x' or inp == 'q':
-                os.system('cls' if platform.system() == 'Windows' else 'clear')
                 send_greeting('quickexit')
                 quit()
 
@@ -93,7 +91,58 @@ def main():
                     print('    ║ File not found! Example usage: file.txt or folder/file.txt')
 
         except KeyboardInterrupt:
-            os.system('cls' if platform.system() == 'Windows' else 'clear')
+            send_greeting('quickexit')
+            quit()
+
+def window_mode():
+    from tkinter import filedialog
+    main_window = tk.Tk()
+
+    main_window.geometry('150x150')
+    main_window.title('Bookbot')
+
+    def open_file_dialog(): 
+        file_path = tk.filedialog.askopenfilename()
+        if file_path:
+            generate_report(file_path, True)
+
+    open_button = tk.Button(main_window, text="Open File", command=open_file_dialog)
+    open_button.pack(pady=10)
+
+    exit_button = tk.Button(main_window, text = 'Quit', command = quit).pack(pady=10)
+
+    tk.Label(text = f'Bookbot version {version}').pack(pady=10)
+
+    main_window.mainloop()
+# Main
+def main():
+    send_greeting("select-modal")
+    while True:
+        try:
+            try:
+                option = get_file('default_run_mode')
+                if option == '1':
+                    send_greeting('start')
+                    console_mode()
+                elif option == '2':
+                    send_greeting('window-running') 
+                    window_mode()
+                    quit()
+            except FileNotFoundError:
+                create_file_write('default_run_mode')
+
+            inp = input('    ║ ')
+            if inp == '1':
+                send_greeting('start')
+                console_mode()
+            elif inp == '2':
+                send_greeting('window-running') 
+                window_mode()
+                quit()
+            elif inp == 'exit' or inp == 'quit' or inp == 'x' or inp == 'q':
+                send_greeting('quickexit')
+                quit()
+        except KeyboardInterrupt:
             send_greeting('quickexit')
             quit()
     

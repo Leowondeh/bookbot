@@ -5,14 +5,7 @@ def get_file(path):
         contents = f.read()
         return contents
 
-def get_version():
-    try:
-        return get_file('version')
-    except FileNotFoundError:
-        create_file_write('version', '1.11.5')
-        return get_file('version')
-
-def create_file_write(path, content):
+def create_file_write(path, content = ''):
     with open(path, "w") as f:
         f.write(content)
 

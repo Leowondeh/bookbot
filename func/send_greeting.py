@@ -1,13 +1,14 @@
 from time import sleep
 import platform, os
-from func.file_management import get_version
 
 def send_greeting(type):
     # start
     if type == "start":
+        from main import version
+        os.system('cls' if platform.system() == 'Windows' else 'clear')
         print(f"""
     ╔═══════════════════════╗
-    ║    Bookbot! v{get_version()}   ║
+    ║    Bookbot! v{version}    ║
     ║                       ║
     ║ Please provide a path ║
     ║ or use 'exit' to exit ║
@@ -16,6 +17,7 @@ def send_greeting(type):
 
     # exit (unused, use if need to save)
     elif type == "exit5":
+        os.system('cls' if platform.system() == 'Windows' else 'clear')
         for i in range(5, 0, -1):
             print(f"""
     ╔═══════════════════════╗
@@ -28,14 +30,33 @@ def send_greeting(type):
 
     # quick exit
     elif type == 'quickexit':
+        os.system('cls' if platform.system() == 'Windows' else 'clear')
         print("""
     ╔═══════════════════════╗
     ║        Bookbot!       ║
     ║                       ║
     ║       Exiting...      ║
     ║        Goodbye!       ║
-    ╚═══════════════════════╝
-          """)
+    ╚═══════════════════════╝""")
+    elif type == 'select-modal':
+        os.system('cls' if platform.system() == 'Windows' else 'clear')
+        print("""    
+    ╔══════════════════════════════════╗
+    ║             Bookbot              ║
+    ║      Select operation mode       ║
+    ║                                  ║
+    ║ The default_run_mode file also   ║
+    ║   works to choose this option!   ║
+    ║   1 - Console   ║   2 - Window   ║
+    ╠══════════════════════════════════╝""")
+    elif type == 'window-running':
+        os.system('cls' if platform.system() == 'Windows' else 'clear')
+        print("""    
+    ╔══════════════════════════════════╗
+    ║             Bookbot              ║
+    ║    Is running in window mode     ║
+    ║ Swap to the new window to use it ║
+    ╚══════════════════════════════════╝""")
     elif type == 'help':
          os.system('cls' if platform.system() == 'Windows' else 'clear')
          print("""    
@@ -54,15 +75,14 @@ def send_greeting(type):
          while True:
                 inp = input()
                 if inp == 'return' or inp == 'rt' or inp == 'q' or inp == 'x':
-                    os.system('cls' if platform.system() == 'Windows' else 'clear')
                     send_greeting('start')
                     break
                 else:
-                     os.system('cls' if platform.system() == 'Windows' else 'clear')
                      send_greeting('help')
 
     # options
     elif type == 'options':
+            os.system('cls' if platform.system() == 'Windows' else 'clear')
             print(
 """    ║
     ║                       Options                       

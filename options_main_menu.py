@@ -16,7 +16,6 @@ def create_or_reset_options():
 "exit after finishing report, 0, save to file, 0, report more characters, 0, display vowel count, 1, display consonant count, 1")
 
 def options_main_menu():
-    os.system('cls' if platform.system() == 'Windows' else 'clear')
     send_greeting('options')
 
     # Read options file & print options
@@ -44,7 +43,6 @@ def options_main_menu():
         # Return to main
         if inp == 'return' or inp == 'rt' or inp == 'q' or inp == 'x':
             save_settings(current_options)
-            os.system('cls' if platform.system() == 'Windows' else 'clear')
             send_greeting('start')
             break
         
@@ -53,7 +51,6 @@ def options_main_menu():
             create_or_reset_options()
             print('    ║ Resetting options... please wait.')
             sleep(2)
-            os.system('cls' if platform.system() == 'Windows' else 'clear')
             send_greeting('start')
             break
             
