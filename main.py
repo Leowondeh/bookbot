@@ -14,25 +14,31 @@ from func.count_chars import *
 from func.count_words import *
 from options_main_menu import *
 
-version = '1.2.0'
+version = '1.2.1'
 
 # Generate report
-def generate_report(path, window_mode = False):
-    get_file(path) # file-exists check
+def generate_report(file_path, window_mode = False):
+    # Permission and existence check
+    try:
+        get_file(file_path)
+    except PermissionError:
+        if window_mode:
+            return "Error when accessing file: no permission!"
+        print("Error when accessing file: no permission!")
 
     current_options = read_options() # Import options
     try:
-        text_to_print = f'======== REPORT for {path[path.rindex("/") + 1:]} ========\n'
+        text_to_print = f'======== REPORT for {file_path[file_path.rindex("/") + 1:]} ========\n'
     except ValueError:
-        text_to_print = f'======== REPORT for {path} ========\n'
+        text_to_print = f'======== REPORT for {file_path} ========\n'
     text_to_print += '\n'
-    text_to_print += f'    * Word count: {count_words(get_file(path))}\n'
+    text_to_print += f'    * Word count: {count_words(get_file(file_path))}\n'
     text_to_print += '\n'
     text_to_print += '    * Character counts:\n'
 
     # Charcount and check for options
     if bool(int(current_options[5])):
-        for dict in convert_to_sorted_list(count_chars(get_file(path))):
+        for dict in convert_to_sorted_list(count_chars(get_file(file_path))):
             if dict['char'] == '\n':
                 pass
             elif dict['char'] == ' ':
@@ -40,33 +46,33 @@ def generate_report(path, window_mode = False):
             else:
                 text_to_print += (f'       > {dict["char"]} was found {dict["count"]} times\n')
     else:
-        for dict in convert_to_sorted_list(count_chars(get_file(path))):
+        for dict in convert_to_sorted_list(count_chars(get_file(file_path))):
             if dict['char'].isalpha():
                 text_to_print += (f'       > {dict["char"]} was found {dict["count"]} times\n')
             elif dict['char'] == ' ':
                 pass # Exclude spaces
 
     text_to_print += '\n'
-    text_to_print += f'    * Vowel count: {count_vowels_and_consonants(get_file(path))[0]}\n'
-    text_to_print += f'    * Consonant count: {count_vowels_and_consonants(get_file(path))[1]}'
+    text_to_print += f'    * Vowel count: {count_vowels_and_consonants(get_file(file_path))[0]}\n'
+    text_to_print += f'    * Consonant count: {count_vowels_and_consonants(get_file(file_path))[1]}'
     text_to_print += '\n'
     text_to_print += '=================================='
 
-    print(text_to_print)
-
     # Check save first to optimize time
     if bool(int(current_options[3])):
-        create_report_file(f'{uuid.uuid4()}-{path[path.rindex("/") + 1:]}', text_to_print)
+        create_report_file(f'{uuid.uuid4()}-{file_path[file_path.rindex("/") + 1:]}', text_to_print)
         # File format: (random uuid)-(filename).txt
 
     if bool(int(current_options[1])):
         send_greeting('quickexit')
         quit()
     
-    # Refresh main menu
-    if not window_mode:
+    if window_mode:
+        return text_to_print
+    else:
+        print(text_to_print)
         sleep(3)
-        send_greeting("start")
+        send_greeting('start')
 
 # Console run mode
 def console_mode():
@@ -95,21 +101,25 @@ def console_mode():
             quit()
 
 def window_mode():
-    from tkinter import filedialog
     main_window = tk.Tk()
 
-    main_window.geometry('150x150')
     main_window.title('Bookbot')
 
     def open_file_dialog(): 
+        from tkinter import filedialog
         file_path = tk.filedialog.askopenfilename()
         if file_path:
-            generate_report(file_path, True)
+            report_output.delete(1.0, tk.END)
+            report_output.insert(1.0, generate_report(file_path, True))
 
     open_button = tk.Button(main_window, text="Open File", command=open_file_dialog)
     open_button.pack(pady=10)
 
-    exit_button = tk.Button(main_window, text = 'Quit', command = quit).pack(pady=10)
+    report_output = tk.Text(main_window)
+    report_output.insert(1.0, 'Waiting for file...')
+    report_output.pack()
+
+    tk.Button(main_window, text = 'Quit', command = quit).pack(pady=10)
 
     tk.Label(text = f'Bookbot version {version}').pack(pady=10)
 
