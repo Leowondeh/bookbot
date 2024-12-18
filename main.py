@@ -1,4 +1,4 @@
-import os, platform, tkinter as tk
+import sys, platform, tkinter as tk
 
 # input optimizer (only linux)
 if platform.system() == 'Linux':
@@ -23,14 +23,21 @@ def generate_report(file_path, window_mode = False):
         get_file(file_path)
     except PermissionError:
         if window_mode:
-            return "Error when accessing file: no permission!"
-        print("Error when accessing file: no permission!")
+            return "Error when processing file: no permission!\nTry changing the file permissions or run Bookbot as administrator."
+        print("Error when processing file: no permission!")
+    except UnicodeDecodeError:
+        if window_mode:
+            return "Error when processing file: failed to decode Unicode!\nBookbot can't process files that use non-standard text, such as .xlsx, .pdf, .docx, etc."
+        print("Error when processing file: failed to decode Unicode!\nBookbot can't process files that use non-standard text, such as .xlsx, .pdf, .docx, etc.")
 
     current_options = read_options() # Import options
+    
+    # Sometimes a substring crash occurs, account for that
     try:
         text_to_print = f'======== REPORT for {file_path[file_path.rindex("/") + 1:]} ========\n'
     except ValueError:
         text_to_print = f'======== REPORT for {file_path} ========\n'
+    
     text_to_print += '\n'
     text_to_print += f'    * Word count: {count_words(get_file(file_path))}\n'
     text_to_print += '\n'
@@ -60,12 +67,16 @@ def generate_report(file_path, window_mode = False):
 
     # Check save first to optimize time
     if bool(int(current_options[3])):
-        create_report_file(f'{uuid.uuid4()}-{file_path[file_path.rindex("/") + 1:]}', text_to_print)
+        # Sometimes a substring crash occurs, account for that  
+        try:
+            create_report_file(f'{uuid.uuid4()}-{file_path[file_path.rindex("/") + 1:]}', text_to_print)
+        except ValueError:
+            create_report_file(f'{file_path}.txt', text_to_print)
         # File format: (random uuid)-(filename).txt
 
     if bool(int(current_options[1])):
         send_greeting('quickexit')
-        quit()
+        sys.exit()
     
     if window_mode:
         return text_to_print
@@ -82,7 +93,7 @@ def console_mode():
 
             if inp == 'exit' or inp == 'quit' or inp == 'x' or inp == 'q':
                 send_greeting('quickexit')
-                quit()
+                sys.exit()
 
             elif inp == 'help' or inp == 'h':
                 send_greeting('help')
@@ -98,7 +109,7 @@ def console_mode():
 
         except KeyboardInterrupt:
             send_greeting('quickexit')
-            quit()
+            sys.exit()
 
 def window_mode():
     main_window = tk.Tk()
@@ -119,11 +130,12 @@ def window_mode():
     report_output.insert(1.0, 'Waiting for file...')
     report_output.pack()
 
-    tk.Button(main_window, text = 'Quit', command = quit).pack(pady=10)
+    tk.Button(main_window, text = 'Quit', command = sys.exit).pack(pady=10)
 
     tk.Label(text = f'Bookbot version {version}').pack(pady=10)
 
     main_window.mainloop()
+    
 # Main
 def main():
     send_greeting("select-modal")
@@ -137,7 +149,7 @@ def main():
                 elif option == '2':
                     send_greeting('window-running') 
                     window_mode()
-                    quit()
+                    sys.exit()
             except FileNotFoundError:
                 create_file_write('default_run_mode')
 
@@ -148,13 +160,13 @@ def main():
             elif inp == '2':
                 send_greeting('window-running') 
                 window_mode()
-                quit()
+                sys.exit()
             elif inp == 'exit' or inp == 'quit' or inp == 'x' or inp == 'q':
                 send_greeting('quickexit')
-                quit()
+                sys.exit()
         except KeyboardInterrupt:
             send_greeting('quickexit')
-            quit()
+            sys.exit()
     
 if __name__ == '__main__':
     main()
